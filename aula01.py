@@ -43,3 +43,13 @@ amplitudeInterquartilS = q3s - q1s
 print(f"Amplitude Interquartílica Sync: {amplitudeInterquartilS}")
 amplitudeInterquartilA = q3a - q1a
 print(f"Amplitude Interquartílica Sync: {amplitudeInterquartilA}")
+
+varS = sync.var(ddof=1)
+varA = asyncr.var(ddof=1)
+print(f"Variância Sync: {varS}")
+print(f"Variância ASync: {varA}")
+
+desvPS = sync.std(ddof=1)
+desvPA = asyncr.std(ddof=1)
+print(f"Desvio padrão Sync: {desvPS}")
+print(f"Desvio padrão ASync: {desvPA}")
