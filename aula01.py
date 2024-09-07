@@ -1,9 +1,14 @@
+import asyncore
+from ctypes import alignment
 import statistics
 import numpy
+import matplotlib.pyplot as plt
+import seaborn
+import pandas
 
  
 sync = numpy.array([94, 84.9, 82.6, 69.5, 80.1, 79.6, 81.4, 77.8, 81.7, 78.8, 73.2, 87.9, 87.9, 93.5, 82.3, 79.3, 78.3, 71.6, 88.6, 74.6, 74.1, 80.6])
-asyncr = numpy.array([77.1, 77.1, 91, 77.2, 74.8, 85.1, 67.6, 69.9, 75.3, 71.7, 71.7, 65.7, 72.6, 71.5, 78.2])
+asyncr = numpy.array([77.1, 71.7, 91, 72.2, 74.8, 85.1, 67.6, 69.9, 75.3, 71.7, 65.7, 72.6, 71.5, 78.2])
 
 x = sync.mean()
 x2 = asyncr.mean()
@@ -14,7 +19,6 @@ me = numpy.median(sync)
 me2 = numpy.median(asyncr)
 print(f"Mediana Sync: {me}")
 print(f"Mediana ASync: {me2}")
-
 q1s = numpy.percentile(sync, 25)
 q3s = numpy.percentile(sync, 75)
 print(f"Primeiro Quartil Sync: {q1s}")
@@ -49,7 +53,38 @@ varA = asyncr.var(ddof=1)
 print(f"Variância Sync: {varS}")
 print(f"Variância ASync: {varA}")
 
-desvPS = sync.std(ddof=1)
-desvPA = asyncr.std(ddof=1)
-print(f"Desvio padrão Sync: {desvPS}")
-print(f"Desvio padrão ASync: {desvPA}")
+desvPadraoS = sync.std(ddof=1)
+desvPadraoA = asyncr.std(ddof=1)
+print(f"Desvio padrão Sync: {desvPadraoS}")
+print(f"Desvio padrão ASync: {desvPadraoA}")
+
+cofVarS = desvPadraoS / x
+cofVarA = desvPadraoA / x2
+print(f"Coeficiente de variação Sync: {cofVarS}")
+print(f"Coeficiente de variação ASync: {cofVarA}")
+
+"""plt.hist(sync)"""
+
+"""plt.xlabel('Work Type')
+seaborn.boxplot([sync, asyncr], orient="h")
+plt.yticks([0, 1], ['Dados 1', 'Dados 2'])
+plt.xlabel('Hours')"""
+
+stockdata = pandas.read_csv('stock_data.csv')
+
+open = stockdata['Open']
+xStock = open.mean()
+pontoDeCorte = asyncr.std(ddof=1) * 3
+inferior, superior = x2 - pontoDeCorte, x2 + pontoDeCorte
+outliers = asyncr[(asyncr < inferior) | (asyncr > superior)]
+print(outliers)
+
+seaborn.boxplot(stockdata['Open'], orient='h')
+plt.show()
+
+"""
+Regra empiríca: distribuição normal 
+    - 68% dos intervalos devem estar em um intervalo entre ['x - 5, 'x + 5]
+    - 95% dos intervalos devem estar em um intervalo entre ['x -2s, 'x + 2s]
+"""
+
