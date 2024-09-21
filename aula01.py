@@ -112,7 +112,7 @@ print(scipy.stats.pearsonr(x, y))
 # seaborn.boxplot([x, y], orient='h')'''
 
 # plt.show()
-species = ["Iris-setosa", "Iris-versicolor", "Iris-virginica"]
+'''species = ["Iris-setosa", "Iris-versicolor", "Iris-virginica"]
 for specie in species:
     x = "SepalLengthCm"
     y = "SepalWidthCm"
@@ -125,9 +125,9 @@ for specie in species:
     # seaborn.scatterplot(data=irisSpecie, x=irisSpecie[x], y=irisSpecie[y])
     seaborn.heatmap(corrMatrix, annot=True)
     plt.show()
-    break
+    break'''
 
-for specie in species:
+'''for specie in species:
     x = "PetalLengthCm"
     y = "PetalWidthCm"
     irisSpecie = iris[iris["Species"] == specie].drop(columns=["Id", "Species"])
@@ -137,6 +137,21 @@ for specie in species:
     print(f"Pearson {specie}: {scipy.stats.pearsonr(irisSpecie[x], irisSpecie[y])}")
     seaborn.scatterplot(data=irisSpecie, x=irisSpecie[x], y=irisSpecie[y])
     plt.show()
-    break
+    break'''
 
 
+'''
+Teste de Hipotese
+- Teste de Normalidade (Shapiro-Wilk)
+    H0: é a hipótese nula (distribuição normal)
+    H1: é a hipótese alternativa (distribuição anormal)
+'''
+pValueS = scipy.stats.shapiro(sync)
+if pValueS.pvalue < 0.05:
+    print(pValueS)
+    print("Rejeitar H0")
+else:
+    print(pValueS)
+    print("Não rejeitar H0")
+print(scipy.stats.skew(sync))
+print(scipy.stats.kurtosis(sync))
