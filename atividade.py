@@ -30,5 +30,30 @@ def correlacao():
         print(pearson.statistic)
         seaborn.scatterplot(irisType, x='PetalLengthCm', y='SepalLengthCm')
         plt.show()
-correlacao()
+
+def distEspecies():
+    distribuicaoEspecies = iris['Species'].value_counts().reset_index()
+    distribuicaoEspecies.columns = ['especie', 'contagem']
+
+    # Criar o gráfico de barras
+    plt.figure(figsize=(10, 6))
+    seaborn.barplot(data=distribuicaoEspecies, x='especie', y='contagem', palette='viridis')
+    plt.title('Distribuição das Espécies')
+    plt.xlabel('Espécie')
+    plt.ylabel('Contagem')
+    plt.xticks(rotation=45)
+    plt.show()
+
+
+def variabilidadeDosDados():
+     for specie in species:
+        irisType = iris[iris["Species"] == specie]
+        print(f"Espécie: {specie}")
+        print(f"Desvio padrão comprimento da sépala: {irisType["SepalLengthCm"].std(ddof=1) / irisType['SepalLengthCm'].mean()}")
+        print(f"Desvio padrão largura da sépala: {irisType["SepalWidthCm"].std(ddof=1)/irisType["SepalWidthCm"].mean()}")
+        print(f"Desvio padrão comprimento da pétala: {irisType["PetalLengthCm"].std(ddof=1)/irisType["PetalLengthCm"].mean()}")
+        print(f"Desvio padrão largura da pétala: {irisType["PetalWidthCm"].std(ddof=1)/irisType["PetalWidthCm"].mean()}")
+        print("")
+
+
 
